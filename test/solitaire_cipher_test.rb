@@ -4,27 +4,27 @@ require 'solitaire_cipher'
 class TestSolitaireCipher < MiniTest::Test
   def test_generator
 
-    gen = SolitaireCipher::SequenceGenerator.new
+    gen = SolitaireCipher::KeyStream.new
 
-    seq1 = "DWJXH YRFDG"
-    assert_equal seq1, gen.build(10).to_s
+    str1 = "DWJXH YRFDG"
+    assert_equal str1, gen.build(10).to_s
 
-    seq2 =  "TMSHP UURXJ"
-    assert_equal seq2, gen.build(10).to_s
+    str2 =  "TMSHP UURXJ"
+    assert_equal str2, gen.build(10).to_s
 
-    seq3 = seq1 + " " + seq2
+    str3 = str1 + " " + str2
     gen.reset
-    assert_equal seq3, gen.build(20).to_s
+    assert_equal str3, gen.build(20).to_s
   end
 
   def test_encryption
     assert_equal SolitaireCipher.encrypt(''), ''
 
     str = "=== Code in Ruby live longer! :) ==="
-    assert_equal SolitaireCipher.encrypt(str), 'GLNCQ MJAFF FVOMB JIYCB'
+    assert_equal 'GLNCQ MJAFF FVOMB JIYCB', SolitaireCipher.encrypt(str)
 
-    str = "AAAAA  AAAAA"
-    assert_equal SolitaireCipher.encrypt(str), "EXKYI ZSGEH"
+    str = 'AAAAA  AAAAA'
+    assert_equal 'EXKYI ZSGEH', SolitaireCipher.encrypt(str)
   end
 
   def test_decryption
@@ -37,9 +37,9 @@ class TestSolitaireCipher < MiniTest::Test
     assert_raises(ArgumentError) { SolitaireCipher.decrypt('ABCDE -/,.0') }
 
     str = 'CLEPK HHNIY CFPWH FDFEH'
-    assert_equal SolitaireCipher.decrypt(str), 'YOURC IPHER ISWOR KINGX'
+    assert_equal 'YOURC IPHER ISWOR KINGX', SolitaireCipher.decrypt(str)
 
     str = 'ABVAW LWZSY OORYK DUPVH'
-    assert_equal SolitaireCipher.decrypt(str), 'WELCO METOR UBYQU IZXXX'
+    assert_equal  'WELCO METOR UBYQU IZXXX', SolitaireCipher.decrypt(str)
   end
 end
